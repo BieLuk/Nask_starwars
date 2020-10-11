@@ -1,0 +1,16 @@
+package nask.starwars.exception;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
+@ResponseStatus(HttpStatus.NOT_FOUND)
+public class CharacterNotFoundException extends RuntimeException {
+
+    public CharacterNotFoundException(String message) {
+        this(message, null);
+    }
+
+    public CharacterNotFoundException(String message, Throwable cause) {
+        super(message, cause);
+    }
+}
