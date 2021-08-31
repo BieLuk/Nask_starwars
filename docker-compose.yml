@@ -1,0 +1,38 @@
+version: '3.7'
+
+services:
+  web:
+    build: .
+    depends_on:
+      - postgres_database
+    ports:
+      - "8080:8080"
+    volumes:
+      - "/src/:/code"
+    links:
+      - "postgres_database"
+
+  postgres_database:
+    container_name: postgres_database
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: starwars_db
+    ports:
+      - "5432:5432"
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    depends_on:
+      - web
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    ports:
+      - "9090:9090"
+
+# volumes:
+  # postgres:
+  # pgadmin:
